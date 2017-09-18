@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript Scope</title>
+	<script>
+		/*
+			Any var declared in a function is local to that function.
+			Any var declared outside a function is in the global namespace.
+		*/
+		
+		// "me" is global
+		var me = "Justin";
+		console.log(me);
+		
+		function doSomething() {
+			// "you" is local to this function
+			var you = "Jane";
+			
+			// This lets us know when doSomething is invoked
+			console.log("doSomething happened");
+			
+			// This function has access to global variables like "me"
+			console.log(me);
+			
+			// To get "you" back into the global namespace, we could return it
+			return you;
+		}
+		
+		// Error: this won't work because "you" is local to the doSomething function
+		//console.log(you);
+		
+		// This will work because we've returned "you"
+		console.log(doSomething());
+	</script>
+</head>
+<body>
+	<script>
+		// "me" is global, so we have access to it, even in <script> blocks later in the document
+		console.log(me);
+	</script>
+</body>
+</html>

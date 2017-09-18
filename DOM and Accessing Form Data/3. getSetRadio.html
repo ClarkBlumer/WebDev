@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Get and Set Radios</title>
+	<script>
+		function getRadio() {
+			var radioObject = document.getElementById('trex');
+			console.dir(radioObject);
+			console.log('T-Rex: ' + radioObject.checked);
+		}
+		
+		function setRadio() {
+			document.getElementById('trex').checked = true;
+		}
+		
+		function getAllRadio() {
+			/*
+				We could use getElementById to get each radio input, but it would be nicer to say "I want a reference to all the radio inputs with a name attribute set to 'dinosaur'"
+				
+				We can do that using .getElementsByName()
+				http://www.w3schools.com/jsref/met_doc_getelementsbyname.asp
+				
+			*/
+			var radioObjects = document.getElementsByName('dinosaur');
+			console.dir(radioObjects);
+			
+			for (var i = 0; i < radioObjects.length; i++) {
+				console.log(radioObjects[i].id + ': ' + radioObjects[i].checked);
+			}
+		}
+	</script>
+</head>
+<body>
+	<form action="#" method="POST">
+		<!-- Radio Buttons -->
+		<h3>What is your favorite dinosaur?</h3>
+		<div>
+			<input type="radio" name="dinosaur" id="trex" value="trex" checked>
+			<label for="trex">T-Rex</label>
+		</div>
+		<div>
+			<input type="radio" name="dinosaur" id="spinosaurus" value="spinosaurus">
+			<label for="spinosaurus">Spinosaurus</label>
+		</div>
+		<div>
+			<input type="radio" name="dinosaur" id="triceratops" value="triceratops">
+			<label for="triceratops">Triceratops</label>
+		</div>
+		
+		<hr>
+		
+		<button type="button" onclick="getRadio()">Get Radio</button>
+		<button type="button" onclick="setRadio()">Set Radio</button>
+		<button type="button" onclick="getAllRadio()">Get All Radio</button>
+	</form>
+</body>
+</html>
