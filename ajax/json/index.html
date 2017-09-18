@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AJAX - responseJSON</title>
+	<script src="ajax.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script>
+	
+	function getContent() {
+		$.getJSON("json.php", function(me){
+            //me = JSON.parse(me);
+            $("#contentBox").html(me.name + " has a pet. and that pet is " + me.pet); 
+        });
+        
+        /*
+        var xmlHttp = xmlHttpObjCreate();
+		if (!xmlHttp) {
+			alert("The browser doesn't support this action.");
+			return;
+		}
+		
+		xmlHttp.onload = function() {
+			if (xmlHttp.status == 200) {
+				
+				// Get Response Text
+				var response = xmlHttp.responseText;
+				
+				// Prints the JSON string
+				console.dir(response);
+				
+				// Get div object
+				var divObj = document.getElementById('contentBox');
+				
+				// We used JSON.parse to turn the JSON string into an object
+				var responseObject = JSON.parse(response);
+				
+				// This is our object
+				console.dir(responseObject);
+				
+				
+				// We can use that object like so:
+				divObj.innerHTML = "Hi I am " + responseObject.name + " and my pet is " + responseObject.pet;
+				
+			}
+		}
+		
+		xmlHttp.open("GET", "json.php", true);
+		xmlHttp.send();*/
+	}
+	
+	</script>
+</head>
+<body>
+	<h3>My Content</h3>
+	<div id="contentBox"></div>
+	<button type="button" onclick="getContent();">Get Content</button>
+</body>
+</html>

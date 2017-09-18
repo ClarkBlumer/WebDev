@@ -1,0 +1,153 @@
+<!-- Name:			Clark Blumer
+	 Pawprint:		cjbq4f
+	 Date:			11.04.2014
+	 Assignment:	8
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		<style>
+			.buttons {
+				background-color: darkblue;
+				/*
+				-webkit-border-top-left-radius: 35px;
+				-moz-border-radius-topleft: 35px;
+				border-top-left-radius: 35px;
+				-webkit-border-bottom-right-radius: 35px;
+				-moz-border-radius-bottomright: 35px;
+				border-bottom-right-radius: 35px;
+				*/
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				-webkit-border: 1px solid black;
+				-moz-border: 1px solid black;
+				border: 1px solid black;
+				height: 30px;
+				width: 100px;
+				color: white;
+				font-size: 10pt;
+				font-family: Arial;
+				text-align: center;
+				position: relative;
+				top: 10px;
+				left: 70px;
+			}
+
+			#wrapper {
+				background-color: lightblue;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				border: 1px solid black;
+				position: relative;
+				height: auto;
+				width: 450px;
+				margin: auto;
+			}
+
+			#header {
+				text-align: center;
+				padding-bottom: 1px;
+				margin-bottom: 5px;
+			}
+
+			#contentBox {
+				text-align: center;
+				padding: 10px 35px 5px 35px;
+
+			}
+
+			body {
+				font-family: Arial;
+				/*background: black;*/
+			}
+		</style>
+
+		<script>
+			var webService = "http://babbage.cs.missouri.edu/~schuylerj/a8/webService.php";
+
+			/* wait for the document to finish loading */
+			$(function() {
+				
+				/* Loads initial display message to the contentBox <p> using AJAX */
+				$('#contentBox').html("Loading...");
+				$.get(webService + "?content=home", function(data) {
+					$('#contentBox').html(data);
+				});
+			});
+
+			/*  loadXML data */
+			function loadXML() {
+				$("#contentBox").css("text-align", "center");
+				$("#contentBox").html("Loading...")
+				if(window.XMLHttpRequest) {
+					var xmlHttp = new XMLHttpRequest();
+				}
+				else {
+					var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+
+				xmlHttp.open("GET", webService + "?content=data&format=xml", false);
+				xmlHttp.send();
+				var xmlDoc = xmlHttp.responseXML;
+
+				$("#contentBox").html("<br>");
+				$("#contentBox").css({
+					"padding" : "10px 35px 5px 65px",
+					"margin" : "2px 20px 2px 20px",
+					"text-align" : "left"
+				})
+				var x = xmlDoc.getElementsByTagName("dinosaur");
+				for(i = 0; i < x.length; i++) {
+					$("#contentBox").append("<li class='dino'>" + x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue + " lived during the " + x[i].getElementsByTagName("period")[0].childNodes[0].nodeValue + ".");
+				}
+				$("#contentBox").append("</ul>");
+			}; //end loadXML()
+
+			function loadJSON() {
+				$("#contentBox").css("text-align", "center");
+				$("#contentBox").html("Loading...");
+				$.getJSON(webService + "?content=data&format=json", function(data) {
+					console.dir(data);
+					$("#contentBox").html("<br>");
+					$("#contentBox").css({
+						"padding" : "10px 35px 5px 65px",
+						"margin" : "2px 20px 2px 20px",
+						"text-align" : "left"
+					});
+					for(i = 0; i < data.length; i++)	
+						$("#contentBox").append("<li>" + data[i].name + " lived during the " + data[i].period + ".<br>");
+					//$("#contentBox").append("</ul>");
+				});
+			}; //end loadJSON()
+
+			function loadHome() {
+				$("#contentBox").css("text-align", "center");
+				$('#contentBox').html("Loading...");
+					$("#contentBox").css({
+						"padding" : "10px 35px 5px 65px",
+						"margin" : "2px 20px 2px 20px",
+						"text-align" : "center"
+					});				
+				$.get(webService + "?content=home", function(data) {
+					$('#contentBox').html(data);
+				});
+			}; //end loadHome()
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h2 id="header">Dinosaur Web Application</h2>
+			<div>
+			<button id="homeButton" class="buttons" onclick='loadHome()'>HOME</button>
+			<button id="XMLButton" class="buttons" onclick='loadXML()'>XML Dinos</button>
+			<button id="JSONButton" class="buttons" onclick='loadJSON()'>JSON Dinos</button>
+			</div>
+			<p id="contentBox"></p>
+
+		</div>
+	</body>
+</html>

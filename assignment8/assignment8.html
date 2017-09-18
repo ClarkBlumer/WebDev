@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Assignment 8 - AJAX!</title>
+        <script>
+            function getContent() {
+
+                /* Create the XMLHttpRequest object */
+                var xmlHttp = new XMLHttpRequest();
+                
+                /* When response from the server */
+                xmlHttp.onreadystatechange = function() {
+                    /* if state is 4 and status 200 (everything returned good) */
+                    if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                        /*  variable response gets the response text from the server
+                            and variable contentBox is assigned the element with ID
+                            contentBox.  Change the HTML of contentBox to the response
+                            from the server. */
+                        /*  gets a text version of the reponse from the server 
+                            could use responseXML for XML formatting */
+                        var response = xmlHttp.responseText;
+                        var contentBox = document.getElementById('contentBox');
+                        contentBox.innerHTML = response;
+                    }
+                }
+                
+                /*  Specify the type of request as GET or POST and where the response
+                    is going. */
+                xmlHttp.open('GET', 'responder.php', true);
+                xmlHttp.send(); //send the request
+            }
+        </script>
+    </head>
+    <body>
+        <h3>Content</h3>
+        <p id="contentBox"></p>
+        <button type="button" onclick="getContent()">Get Content</button>
+    </body>
+</html>

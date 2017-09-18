@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function send(){
+                var xmlHttp = new XMLHttpRequest();
+                /*  using GET will change the URL. Use GET when you want to 
+                    GET information */
+                xmlHttp.open("GET", "respond.php", true);
+                xmlHttp.send();
+                
+                xmlHttp.onreadystatechange = function() {
+                    if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                        document.getElementById('contentBox').innerHTML =                                   xmlHttp.responseText;
+                    }
+                };
+            }
+            
+            
+        </script>
+    </head>
+    <body>
+        <div id="contentBox"></div>
+        <button type="button" onclick="send()">Send Request</button>
+    </body>
+</html>

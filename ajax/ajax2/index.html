@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AJAX Example: Eistein Quotes</title>
+	<style>
+		body {
+			font-family: arial, helvetica, sans-serif;
+			font-size: 12pt;
+		}
+		
+		h1 {
+			font-size: 1.2em;
+		}
+		
+		#infoBox {
+			border: 1px solid black;
+			padding: 15px;
+			width: 350px;
+			min-height: 150px;
+		}
+		
+		#stateIndicator {
+			position: relative;
+			width: 350px;
+			border: 1px solid black;
+			margin-top: 10px;
+			padding: 15px;
+			background-color: #ccffcc;
+		}
+		
+		#indicator {
+			position: absolute;
+			left: 200px;
+			top: 60px;
+		}
+		
+		.state {
+			float: left;
+			border: 1px solid black;
+			padding: 4px;
+		}
+		
+		.clear {
+			clear: both;
+		}
+	</style>
+
+	<script src="ajax.js"></script>
+
+	<script>
+	/*
+		The purpose of this example is to watch AJAX in action.
+		
+		Notice how onreadystatechange is called every time the readyState property changes (from 0 to 4).
+	*/
+
+	function updateInfo(infoId) {
+		var xmlHttp = xmlHttpObjCreate();
+		if (!xmlHttp) {
+			alert("The browser doesn't support this action.");
+			return;
+		}
+		
+        /* This function is called everytime the readyState changes */
+		xmlHttp.onreadystatechange=function() {
+			// Get the readyState
+			var rs = xmlHttp.readyState;
+			// Get the tag that should be filled
+			var indObj = document.getElementById('s' + rs);
+			// Fill that tag
+			indObj.innerHTML = rs;
+			
+			// Receive response and update #infoBox
+			if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+				elemObj = document.getElementById('infoBox');
+				elemObj.innerHTML = xmlHttp.responseText;
+			}
+		}
+		
+		// Get the readyState before the AJAX request is sent (when it's 0)
+		var rs = xmlHttp.readyState;
+		var indObj = document.getElementById('s' + rs);
+		indObj.innerHTML = rs;
+		
+		// GET
+        /* appends infoId onto the url */
+		var reqURL = "updateInfo.php?infoId=" + infoId;
+		xmlHttp.open("GET", reqURL, true);
+		xmlHttp.send();
+	}
+
+	function clearStates() {
+		for (var i = 0; i < 5; i++) {
+			var indObj = document.getElementById('s' + i);
+			indObj.innerHTML = '*';
+		}
+	}
+	
+	</script>
+</head>
+<body>
+	<h1>Einstein Quotes</h1>
+	
+	<input type="button" value="Quote 1" onclick="updateInfo('quote1');">
+	<input type="button" value="Quote 2" onclick="updateInfo('quote2');">
+	<input type="button" value="Quote 3" onclick="updateInfo('quote3');">
+	<input type="button" value="Quote 4" onclick="updateInfo('quote4');">
+	
+	<div id="infoBox">Click one of the buttons above to get an Einstein quote.</div>
+	
+	<div id="stateIndicator">
+		<div id="indicator">
+			<div id="s0" class="state">*</div>
+			<div id="s1" class="state">*</div>
+			<div id="s2" class="state">*</div>
+			<div id="s3" class="state">*</div>
+			<div id="s4" class="state">*</div>
+			<input type="button" value="Clear" onclick="clearStates();">
+			<div class="clear"></div>
+		</div>
+		Ready state values:<br>
+		0: uninitialized<br>
+		1: loading<br>
+		2: loaded<br>
+		3: interactive<br>
+		4: complete<br>
+	</div>
+</body>
+</html>
